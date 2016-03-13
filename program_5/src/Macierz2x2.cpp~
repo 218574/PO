@@ -1,0 +1,32 @@
+#include "Macierz2x2.hh"
+
+
+ostream& operator << (ostream &Strm, const Macierz2x2 &Mac)
+{
+	for(int wier = 0; wier<2; wier++)
+	{
+		for(int kol = 0; kol<2; kol++)
+		{
+			Strm << Mac(wier,kol) << " ";
+		}
+		Strm << endl;
+	}
+	return Strm;
+}
+
+Wektor2D Macierz2x2::operator *(const Wektor2D& Wek)const // Macierz2x2:: (z jakiej klasy pochodzi ta funkcja)
+{
+Wektor2D tmp;
+
+for(int i = 0; i<2; i++)
+{
+	tmp[i] = 0;
+
+	for(int j = 0; j<2; j++)
+	{
+		tmp[i] = tmp[i] + tab[i][j] * Wek[j];
+	}
+}
+
+return tmp;
+}

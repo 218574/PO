@@ -1,0 +1,88 @@
+#ifndef PROSTOKAT_HH
+#define PROSTOKAT_HH
+
+#include <iostream>
+#include "Wektor2D.hh"
+
+/*!
+*   \brief Klasa Prostokat do przechowywania wspolrzednych prostokata
+*
+*   Klasa Prostokat do przechowywania wspolrzednych prostokata.
+*   Wspolrzedne przechowywane sa w 4-ro elementowej tablicy typu Wektor2D.
+*   Elementy tablicy zainicjowane sa wartosciami przykladowymi
+*
+*/
+class Prostokat
+{
+  Wektor2D Pkt[8] = {Wektor2D(10,10,10), Wektor2D(110,10,10), Wektor2D(110,60,10), Wektor2D(10,60,10), Wektor2D(10,10,60), Wektor2D(110,10,60), Wektor2D(110,60,60), Wektor2D(10,60,60)};   //Tablica 4 elementowa typu Wektor2D zainicjowana wartosciami
+
+
+public:
+
+    /*!
+     *  \brief Przeciazenie operatora indeksowania dla klasy Prostokat
+     *
+     *   Przeciazenie operatora indeksowania dla klasy Prostokat
+     *   Dzieki temu przeciazeniu uzyskujemy mozliwosc odczytu
+     *   wspolrzednych typu Wektor2D tablicy Pkt[4]
+     * \param[in] Ind - liczba calkowita dodatnia bedaca indeksem
+     *                   elementu klasy (od 0 do 3)
+     * \return Wektor bedacy elementem tablicy w klasie o podanym indeksie
+     *
+     */
+    Wektor2D operator [] (int Ind) const
+    {
+        return Pkt[Ind];
+    }
+
+    /*!
+     *  \brief Przeciazenie operatora indeksowania dla klasy Wektor2D
+     *
+     *   Przeciazenie operatora indeksowania dla klasy Wektor2D
+     *   Dzieki temu przeciazeniu uzyskujemy mozliwosc zapisu
+     *   wpsolrzednych typu Wektor2D do tablicy Pkt[4]
+     * \param[in] Ind - liczba calkowita dodatnia bedaca indeksem
+     *                   elementu klasy (od 0 do 3)
+     * \return &Pkt[Ind] dostep to elementow tablicy Pkt[4]
+     *
+     */
+    Wektor2D & operator [] (int Ind)
+    {
+        return Pkt[Ind];
+    }
+
+
+    /*!
+    *   \brief Przeciazenie operatora dodawania dla Prostokat
+    *
+    *   Przeciazenie operatora dodawania dla Prostokat.
+    *   Przeciazenie jest wykorzystywane do przesyniecia Wspolrzednych
+    *   klasy Prostokat o wektor.
+    *
+    *   \param[in] Prostokat
+    *   \param[in] x - wektor do dodania
+    *
+    */
+    void operator + (Wektor2D x);
+
+};
+
+
+/*!
+*   \brief Przeciazenie operatora zapisu do strumienia dla klasy Prostokat
+*
+*   Przeciazenie operatora zapisu do strumienia dla klasy Prostokat.
+*   Wyswietlane sa wspolrzedne punktow Prostokatu o dlugosci 16 znakow z 10 miejscami
+*   po przecinku z wyrownaniem do prawej strony. Wspolrzedna x oraz y odzielone
+*   sa spacjami. Po wyswietleniu nastepuje przejscie do nowej lini.
+*
+* \param[in] &Strm - Referencja na strumien wejsciowy
+* \param[in] &Wek - Referencja na klase Prostokat
+*
+* \return Strm - strumien wyjsciowy
+*
+*/
+std::ostream& operator << ( std::ostream &Strm, const Prostokat &Pr);
+
+
+#endif

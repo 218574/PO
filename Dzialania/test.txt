@@ -1,0 +1,10 @@
+a + b = c
+a + b = a
+a ^ b = d
+a / b = a
+a * c = d
+a * a = a
+a a a a a
+a % d = e
+a % a = a
+e - a = d

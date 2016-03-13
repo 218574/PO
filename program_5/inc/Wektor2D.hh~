@@ -1,0 +1,49 @@
+#ifndef WEKTOR2D_HH
+#define WEKTOR2D_HH
+
+#include <iostream>
+using namespace std;
+
+// Tutaj trzeba opisac klase. Jakie pojecie modeluje ta klasa i jakie ma glowne cechy.
+
+class Wektor2D {
+  private:
+	double tab[2];
+
+  public:
+	double& operator [](int indeks){  //po lewej stronie znaku "="
+	return tab[indeks];
+	}
+
+	double operator [](int indeks)const {  //po prawej sronie znaku "="
+	return tab[indeks];
+	}
+
+	Wektor2D operator +(const Wektor2D & Wek)const;
+
+	Wektor2D operator -(const Wektor2D & Wek)const;
+
+};
+
+
+
+//====================================================================================
+/*
+ * To przeciazenie trzeba opisac. Co ono robi. Jaki format
+ * danych akceptuje. Jakie jest znaczenie parametrow itd.
+ * Szczegoly dotyczace zalecen realizacji opisow mozna
+ * znalezc w pliku:
+ *    ~bk/edu/kpo/zalecenia.txt 
+ */
+istream& operator >> (istream &Strm, Wektor2D &Wek);
+
+/*
+ * To przeciazenie trzeba opisac. Co ono robi. Jaki format
+ * danych akceptuje. Jakie jest znaczenie parametrow itd.
+ * Szczegoly dotyczace zalecen realizacji opisow mozna
+ * znalezc w pliku:
+ *    ~bk/edu/kpo/zalecenia.txt 
+ */
+ostream& operator << (ostream &Strm, const Wektor2D &Wek);
+
+#endif

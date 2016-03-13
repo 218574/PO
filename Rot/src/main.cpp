@@ -1,0 +1,121 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include "Obroty.hh"
+#include "lacze_do_gnuplota.hh"
+
+
+
+using namespace std;
+
+
+
+#define DL_KROTKI_BOK  200
+#define DL_DLUGI_BOK   300
+
+
+
+/*!
+ * Funkcja zapisu wspolrzednych zbioru punktow do pliku, z ktorego
+ * dane odczyta program gnuplot i narysuje je w swoim oknie graficznym.
+ * \param[in] sNazwaPliku - nazwa pliku, do którego zostana zapisane
+ *                          wspolrzędne punktów.
+ * \param[in] Obr - klasa Obrot
+ *
+ * \retval true - gdy operacja zapisu powiodła się,
+ * \retval false - w przypadku przeciwnym.
+ */
+
+
+bool zapisz( const char  *NazwaPliku, Obroty Obrot)
+{
+    ofstream  StrumienPliku;
+
+    StrumienPliku.open(NazwaPliku);
+    if (!StrumienPliku.is_open())
+    {
+        cerr << "Operacja otwarcia do zapisu \"" << NazwaPliku << "\"" << endl << "nie powiodla sie." << endl;
+        return false;
+    }
+
+    Obrot.wspolrzedne_do_zapisu(StrumienPliku);
+
+    StrumienPliku.close();
+    return !StrumienPliku.fail();
+}
+
+void wyswietl_menu (void) // Funkcja wyswietlajaca menu
+{
+    cout << "o - OBROT PROSTOKATA O KAT" << endl;
+    cout << "p - PRZESUNIECIE PROSTOKATA O WEKTOR" << endl;
+    cout << "w - WYSWIETLENIE WSPOLRZEDNYCH WIERZCHOLKOW" << endl;
+    cout << "s - SPRAWDZENIE ROWNOSCI BOKOW" << endl;
+    cout << "m - MENU" << endl;
+    cout << "k - KONIEC" << endl;
+}
+
+int main()
+{
+    char znak;
+    Obroty Obroty;
+    PzG::LaczeDoGNUPlota  Lacze;  // Ta zmienna jest potrzebna do wizualizacji
+    // rysunku prostokata
+    //-------------------------------------------------------
+    //  Wspolrzedne wierzcholkow beda zapisywane w pliku "prostokat.dat"
+    //  Ponizsze metody powoduja, ze dane z pliku beda wizualizowane
+    //  na dwa sposoby:
+    //   1. Rysowane jako linia ciagl o grubosci 2 piksele
+    //
+    Lacze.DodajNazwePliku("prostokat.dat",PzG::RR_Ciagly,2);
+    //
+    //   2. Rysowane jako zbior punktow reprezentowanych przez kwadraty,
+    //      których połowa długości boku wynosi 2.
+    //
+    Lacze.DodajNazwePliku("prostokat.dat",PzG::RR_Punktowy,2);
+    //
+    //  Ustawienie trybu rysowania 2D, tzn. rysowany zbiór punktów
+    //  znajduje się na wspólnej płaszczyźnie. Z tego powodu powoduj
+    //  jako wspolrzedne punktow podajemy tylko x,y.
+    //
+    Lacze.ZmienTrybRys(PzG::TR_2D);
+
+    wyswietl_menu();
+
+    while(1)
+    {
+        cin >> znak;
+
+        switch(znak)
+        {
+        case 'o':
+            Obroty.wykonaj_obrot();
+            break;
+
+	case 'p':
+            Obroty.przesun_o_wektor();
+            break;
+
+        case 'w':
+            Obroty.wyswietl_wspolrzedne();
+            if (!zapisz("prostokat.dat", Obroty)) return 1;
+            Lacze.Rysuj();
+            break;
+
+        case 's':
+            Obroty.sprawdz_boki();
+            break;
+
+        case 'm':
+            wyswietl_menu();
+            break;
+
+        case 'k':
+            return 0;
+            break;
+
+        default:
+            cerr << "Wprowadzono niepoprawny znak" << endl << "Wprowadz znak ponownie" << endl;
+            break;
+        }
+    }
+}
